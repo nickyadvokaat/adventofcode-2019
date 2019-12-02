@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace AdventOfCode
+﻿namespace AdventOfCode
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            Day02.run();
+            Day02.Run();
         }
     }
 }
