@@ -46,6 +46,7 @@ namespace AdventOfCode
                             break;
                     }
                     x -= 1;
+                    currentPosition.stepNumber += 1;
                     c.Add(currentPosition);
                 }
             }

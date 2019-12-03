@@ -6,11 +6,13 @@ namespace AdventOfCode
     {
         public int x;
         public int y;
+        public int stepNumber;
 
         public Coordinate(int x, int y)
         {
             this.x = x;
             this.y = y;
+            this.stepNumber = 0;
         }
 
         public int ManhattanDistance()
