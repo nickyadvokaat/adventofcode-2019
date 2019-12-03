@@ -18,7 +18,7 @@ namespace AdventOfCode
 
             // part 2
             program = GetProgramFromFile();
-            int result2 = FindNounAndVerb(program);
+            int result2 = FindNounAndVerb(program, 19690720);
             Console.WriteLine("result: " + result2);
         }
 
@@ -45,7 +45,7 @@ namespace AdventOfCode
             }
         }
 
-        private static int FindNounAndVerb(int[] p)
+        public static int FindNounAndVerb(int[] p, int target)
         {
             for (int noun = 1; noun <= 99; noun++)
             {
@@ -56,7 +56,7 @@ namespace AdventOfCode
                     program[1] = noun;
                     program[2] = verb;
                     int result = ExecuteIntcode(program);
-                    if (result == 19690720)
+                    if (result == target)
                     {
                         return 100 * noun + verb;
                     }
