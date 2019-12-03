@@ -67,7 +67,7 @@ namespace AdventOfCode
 
         private static int[] GetProgramFromFile()
         {
-            string text = System.IO.File.ReadAllText(@"C:\Users\ncim\source\repos\AdventOfCode\AdventOfCode\data\data02.txt");
+            string text = System.IO.File.ReadAllText(DataHelper.getPath("02"));
             return text.Split(',').Select(Int32.Parse).ToArray();
         }
     }

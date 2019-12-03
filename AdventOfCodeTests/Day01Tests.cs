@@ -1,5 +1,6 @@
 using AdventOfCode;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace AdventOfCodeTests
 {
@@ -7,10 +8,23 @@ namespace AdventOfCodeTests
     public class Day01Tests
     {
         [TestMethod]
-        public void TestDay01TotalRequiredFuel()
+        public void TestCalculateRequiredFuel()
         {
-            Assert.AreEqual(658, Day01.CalculateTotalRequiredFuel(new[] { 12, 14, 1969 }), "Incorrect required fuel amount");
-            Assert.AreEqual(970, Day01.CalculateTotalRequiredFuel(new[] { 12, 14, 1969 }, true), "Incorrect required fuel amount");
+            var masses = new List<int> { 12, 14, 1969 };
+
+            int result = Day01.CalculateRequiredFuel(masses);
+
+            Assert.AreEqual(658, result);
+        }
+
+        [TestMethod]
+        public void TestCalculateRequiredFuelIncludingAddedFuel()
+        {
+            var masses = new List<int> { 12, 14, 1969 };
+
+            int result = Day01.CalculateRequiredFuelIncludingAddedFuel(masses);
+
+            Assert.AreEqual(970, result);
         }
     }
 }

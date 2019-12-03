@@ -4,4 +4,20 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="data\data01.txt" />
+    <None Remove="data\data02.txt" />
+    <None Remove="data\data03.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="data\data01.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\data02.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\data03.txt" />
+  </ItemGroup>
 </Project>

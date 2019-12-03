@@ -8,7 +8,7 @@ namespace AdventOfCode
     {
         public static void Run()
         {
-            string[] lines = System.IO.File.ReadAllLines(@"C:\Users\ncim\source\repos\AdventOfCode\AdventOfCode\data\data03.txt");
+            string[] lines = System.IO.File.ReadAllLines(DataHelper.getPath("03"));
             int distanceToClosestIntersection = getDistanceToClosestIntersection(new List<string> { lines[0], lines[1] });
             Console.WriteLine("Result part 1: " + distanceToClosestIntersection);
             int fewestCombinedStepsToIntersection = getFewestCombinedStepsToIntersection(new List<string> { lines[0], lines[1] });
