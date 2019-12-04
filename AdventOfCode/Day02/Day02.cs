@@ -7,68 +7,24 @@ namespace AdventOfCode
     {
         public static void Run()
         {
-            int[] program;
+            IntcodeProgram intcodeProgram;
 
             // part 1
-            program = GetProgramFromFile();
-            program[1] = 12;
-            program[2] = 2;
-            int result1 = ExecuteIntcode(program);
-            Console.WriteLine("result: " + result1);
+            intcodeProgram = GetProgramFromFile();
+            intcodeProgram.SetNounAndVerb(12, 2);
+            int result1 = intcodeProgram.ExecuteIntcode();
+            Console.WriteLine("result part 1: " + result1);
 
             // part 2
-            program = GetProgramFromFile();
-            int result2 = FindNounAndVerb(program, 19690720);
-            Console.WriteLine("result: " + result2);
+            intcodeProgram = GetProgramFromFile();
+            int result2 = intcodeProgram.FindNounAndVerb(19690720);
+            Console.WriteLine("result part 2: " + result2);
         }
 
-        public static int ExecuteIntcode(int[] program)
-        {
-            int instructionPointer = 0;
-            while (true)
-            {
-                int opCode = program[instructionPointer];
-                switch (opCode)
-                {
-                    case 1:
-                        program[program[instructionPointer + 3]] = program[program[instructionPointer + 1]] + program[program[instructionPointer + 2]];
-                        break;
-
-                    case 2:
-                        program[program[instructionPointer + 3]] = program[program[instructionPointer + 1]] * program[program[instructionPointer + 2]];
-                        break;
-
-                    case 99:
-                        return program[0];
-                }
-                instructionPointer += 4;
-            }
-        }
-
-        public static int FindNounAndVerb(int[] p, int target)
-        {
-            for (int noun = 1; noun <= 99; noun++)
-            {
-                for (int verb = 1; verb <= 99; verb++)
-                {
-                    int[] program = new int[p.Length];
-                    p.CopyTo(program, 0);
-                    program[1] = noun;
-                    program[2] = verb;
-                    int result = ExecuteIntcode(program);
-                    if (result == target)
-                    {
-                        return 100 * noun + verb;
-                    }
-                }
-            }
-            return -1;
-        }
-
-        private static int[] GetProgramFromFile()
+        private static IntcodeProgram GetProgramFromFile()
         {
             string text = System.IO.File.ReadAllText(DataHelper.getPath("02"));
-            return text.Split(',').Select(Int32.Parse).ToArray();
+            return new IntcodeProgram(text);
         }
     }
 }
