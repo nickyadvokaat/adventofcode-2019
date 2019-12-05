@@ -12,7 +12,7 @@ namespace AdventOfCodeTests
             string intCode = "2,4,4,5,99,0";
             IntcodeProgram intcodeProgram = new IntcodeProgram(intCode);
 
-            int result = intcodeProgram.ExecuteIntcode();
+            int result = intcodeProgram.ExecuteIntcode().position0;
 
             Assert.AreEqual(2, result);
         }
@@ -23,7 +23,7 @@ namespace AdventOfCodeTests
             string intCode = "1,1,1,4,99,5,6,0,99";
             IntcodeProgram intcodeProgram = new IntcodeProgram(intCode);
 
-            int result = intcodeProgram.ExecuteIntcode();
+            int result = intcodeProgram.ExecuteIntcode().position0;
 
             Assert.AreEqual(30, result);
         }

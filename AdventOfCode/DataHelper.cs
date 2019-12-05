@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace AdventOfCode
 {
-    internal static class DataHelper
+    public static class DataHelper
     {
         public static string getPath(string challenge)
         {
