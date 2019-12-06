@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace AdventOfCode
@@ -8,9 +9,13 @@ namespace AdventOfCode
     {
         public static void Run()
         {
-            Space space = SpaceFactory.Bigbang("06-test");
+            Space space = SpaceFactory.Bigbang("06");
+
             int result = space.NumberOfDirectAndIndirectOrbits();
-            Console.WriteLine("Result 6: {0}", result); ;
+            Console.WriteLine("Result6 part1: {0}", result);
+
+            int result2 = space.NumberOfOrbitalTransfersRequired();
+            Console.WriteLine("Result6 part2: {0}", result2);
         }
     }
 
@@ -47,12 +52,33 @@ namespace AdventOfCode
 
         public int NumberOfDirectAndIndirectOrbits()
         {
-            return this.planets.Select(p => NumberOfAncestors(p)).Sum();
+            return this.planets.Select(p => p.NumberOfAncestors()).Sum();
         }
 
-        private int NumberOfAncestors(Planet planet)
+        public int NumberOfOrbitalTransfersRequired()
         {
-            return planet.parent == null ? 0 : 1 + NumberOfAncestors(planet.parent);
+            return NumberOfOrbitalTransfersRequired(GetPlanet("YOU"), GetPlanet("SAN"));
+        }
+
+        private int NumberOfOrbitalTransfersRequired(Planet planetA, Planet planetB)
+        {
+            List<Planet> ancestorsA = planetA.GetAncestors();
+            List<Planet> ancestorsB = planetB.GetAncestors();
+
+            for (int i = 0; i < ancestorsA.Count; i++)
+            {
+                if (!ancestorsA[i].Equals(ancestorsB[i]))
+                {
+                    return ancestorsA.Count - i + ancestorsB.Count - i;
+                }
+            }
+
+            return -1;
+        }
+
+        private Planet GetPlanet(string planetName)
+        {
+            return this.planets.Where(p => p.name == planetName).First();
         }
 
         private Planet GetOrCreatePlanet(string planetName)
@@ -71,7 +97,7 @@ namespace AdventOfCode
         }
     }
 
-    public class Planet
+    public class Planet : IEquatable<Planet>
     {
         public readonly string name;
         public Planet parent;
@@ -85,6 +111,30 @@ namespace AdventOfCode
         public void SetParent(Planet parent)
         {
             this.parent = parent;
+        }
+
+        public List<Planet> GetAncestors()
+        {
+            if (this.parent == null)
+            {
+                return new List<Planet>();
+            }
+            else
+            {
+                List<Planet> p = this.parent.GetAncestors();
+                p.Add(this.parent);
+                return p;
+            }
+        }
+
+        public int NumberOfAncestors()
+        {
+            return parent == null ? 0 : 1 + parent.NumberOfAncestors();
+        }
+
+        public bool Equals([AllowNull] Planet other)
+        {
+            return other == null ? false : other.name == name;
         }
     }
 }
