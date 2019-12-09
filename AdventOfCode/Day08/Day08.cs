@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AdventOfCode
 {
@@ -9,15 +8,21 @@ namespace AdventOfCode
     {
         public static void Run()
         {
-            int result = part1();
-            Console.WriteLine("{0}", result);
+            const int width = 25;
+            const int height = 6;
+
+            string text = System.IO.File.ReadAllText(DataHelper.getPath("08"));
+
+            int result = CheckImageCorruption(text, width, height);
+            Console.WriteLine("Result part 1: {0}", result);
+
+            string image = DecodeImage(text, width, height);
+            PrintImage(image, 25);
         }
 
-        private static int part1()
+        private static int CheckImageCorruption(string text, int width, int height)
         {
-            string text = System.IO.File.ReadAllText(DataHelper.getPath("08"));
-            int numberOfPixels = 25 * 6;
-            var parts = text.SplitInParts(numberOfPixels);
+            var parts = text.SplitInParts(width * height);
             int min = int.MaxValue;
             string minPart = "";
             foreach (string part in parts)
@@ -30,6 +35,32 @@ namespace AdventOfCode
                 }
             }
             return minPart.NumberOfOccurencesOfCharacter('1') * minPart.NumberOfOccurencesOfCharacter('2');
+        }
+
+        private static string DecodeImage(string text, int width, int height)
+        {
+            int numberOfPixels = width * height;
+            var parts = text.SplitInParts(numberOfPixels).Reverse();
+            char[] image = parts.First().ToCharArray();
+            foreach (string part in parts)
+            {
+                for (int i = 0; i < part.Length; i++)
+                {
+                    if (part[i] != '2')
+                    {
+                        image[i] = part[i];
+                    }
+                }
+            }
+            return new string(image);
+        }
+
+        private static void PrintImage(string image, int width)
+        {
+            foreach (string line in image.Replace('0', ' ').Replace('1', '\u2588').SplitInParts(width))
+            {
+                Console.WriteLine(line);
+            }
         }
     }
 
