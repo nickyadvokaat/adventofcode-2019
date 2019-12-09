@@ -14,8 +14,12 @@
     <None Remove="data\data06-test.txt" />
     <None Remove="data\data06.txt" />
     <None Remove="data\data07-test-2.txt" />
+    <None Remove="data\data07-test-3.txt" />
     <None Remove="data\data07-test.txt" />
     <None Remove="data\data07.txt" />
+    <None Remove="data\data08-test.txt" />
+    <None Remove="data\data08.txt" />
+    <None Remove="data\TextFile1.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,10 +53,19 @@
     <Content Include="data\data07-test-2.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="data\data07-test-3.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="data\data07-test.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="data\data07.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\data08-test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\data08.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
