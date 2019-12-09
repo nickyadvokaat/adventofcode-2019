@@ -27,7 +27,19 @@ namespace AdventOfCode
             this.instructions = inputString.Split(',').Select(Int32.Parse).ToArray();
         }
 
-        public IntcodeProgramResult ExecuteIntcode(int input = 0)
+        public IntcodeProgramResult ExecuteIntcode()
+        {
+            return ExecuteIntcode(0);
+        }
+
+        public IntcodeProgramResult ExecuteIntcode(int input)
+        {
+            List<int> list = new List<int>();
+            list.Add(input);
+            return ExecuteIntcode(list);
+        }
+
+        public IntcodeProgramResult ExecuteIntcode(List<int> inputs)
         {
             IntcodeProgramResult result = IntcodeProgramResult.Init();
 
@@ -89,7 +101,8 @@ namespace AdventOfCode
 
                     case 3:
                         int index = C == 0 ? instructions[instructionPointer + 1] : instructionPointer + 1;
-                        instructions[index] = input;
+                        instructions[index] = inputs.First();
+                        inputs.Remove(inputs.First());
                         instructionPointerSteps = 2;
                         break;
 
