@@ -5,14 +5,15 @@ using System.Text;
 namespace AdventOfCode.Intcode
 {
     internal enum Mode
-    { Position = 0, Immediate = 1 };
+    { Position = 0, Immediate = 1, Relative = 2 };
 
     internal class Computer
     {
         private enum State
         { Ready, Running, AwaitingInput, Finished };
 
-        private enum Opcode { Add = 1, Mult = 2, Input = 3, Output = 4, True = 5, False = 6, Less = 7, Equals = 8, End = 99 };
+        private enum Opcode
+        { Add = 1, Mult = 2, Input = 3, Output = 4, True = 5, False = 6, Less = 7, Equals = 8, RB = 9, End = 99 };
 
         private Queue<long> inputQueue;
         private Queue<long> outputQueue;
@@ -48,15 +49,8 @@ namespace AdventOfCode.Intcode
             }
         }
 
-        public long Test()
-        {
-            return memory.Get(0);
-        }
-
         private void ProcessNextInstruction()
         {
-            //memory.Print();
-
             long instruction = memory.Get(IP);
             Opcode opcode = (Opcode)(instruction % 100);
             Mode C = (Mode)((instruction % 1000) / 100);
@@ -70,6 +64,7 @@ namespace AdventOfCode.Intcode
                     long value2 = memory.Get(IP + 2, B);
                     //long index = memory.Get(IP + 3, A);
                     long index = memory.Get(IP + 3);
+                    index = A == Mode.Relative ? memory.Get(IP + 3) + memory.getRB() : memory.Get(IP + 3);
                     memory.Set(index, value1 + value2);
                     IP += 4;
                     break;
@@ -78,7 +73,7 @@ namespace AdventOfCode.Intcode
                     value1 = memory.Get(IP + 1, C);
                     value2 = memory.Get(IP + 2, B);
                     //index = memory.Get(IP + 3, A);
-                    index = memory.Get(IP + 3);
+                    index = A == Mode.Relative ? memory.Get(IP + 3) + memory.getRB() : memory.Get(IP + 3);
                     memory.Set(index, value1 * value2);
                     IP += 4;
                     break;
@@ -87,7 +82,7 @@ namespace AdventOfCode.Intcode
                     if (inputQueue.Count > 0)
                     {
                         //
-                        index = memory.Get(IP + 1);
+                        index = C == Mode.Relative ? memory.Get(IP + 1) + memory.getRB() : memory.Get(IP + 1);
                         memory.Set(index, inputQueue.Dequeue());
                         IP += 2;
                     }
@@ -134,7 +129,7 @@ namespace AdventOfCode.Intcode
                 case Opcode.Less:
                     value1 = memory.Get(IP + 1, C);
                     value2 = memory.Get(IP + 2, B);
-                    index = memory.Get(IP + 3);
+                    index = A == Mode.Relative ? memory.Get(IP + 3) + memory.getRB() : memory.Get(IP + 3);
                     long result = value1 < value2 ? 1 : 0;
                     memory.Set(index, result);
                     IP += 4;
@@ -143,10 +138,16 @@ namespace AdventOfCode.Intcode
                 case Opcode.Equals:
                     value1 = memory.Get(IP + 1, C);
                     value2 = memory.Get(IP + 2, B);
-                    index = memory.Get(IP + 3);
+                    index = A == Mode.Relative ? memory.Get(IP + 3) + memory.getRB() : memory.Get(IP + 3);
                     result = value1 == value2 ? 1 : 0;
                     memory.Set(index, result);
                     IP += 4;
+                    break;
+
+                case Opcode.RB:
+                    value1 = memory.Get(IP + 1, C);
+                    memory.AdjustRB(value1);
+                    IP += 2;
                     break;
 
                 case Opcode.End:
