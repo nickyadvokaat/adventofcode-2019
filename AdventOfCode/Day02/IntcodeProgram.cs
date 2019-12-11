@@ -100,6 +100,7 @@ namespace AdventOfCode
                         break;
 
                     case 3:
+                        Console.WriteLine("in");
                         int index = C == 0 ? instructions[instructionPointer + 1] : instructionPointer + 1;
                         instructions[index] = inputs.First();
                         inputs.Remove(inputs.First());

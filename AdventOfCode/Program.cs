@@ -1,10 +1,12 @@
-﻿namespace AdventOfCode
+﻿using AdventOfCode.Intcode;
+
+namespace AdventOfCode
 {
     internal class Program
     {
         private static void Main(string[] args)
         {
-            Day08.Run();
+            Boot.Run();
         }
     }
 }

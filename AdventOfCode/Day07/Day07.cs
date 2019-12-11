@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AdventOfCode
 {
@@ -9,15 +8,19 @@ namespace AdventOfCode
     {
         public static void Run()
         {
-            IntcodeProgram intcodeProgram;
+            //int HighestSignal = FindHighestSignal();
+            //Console.WriteLine("Result part 1: {0}", HighestSignal);
 
-            intcodeProgram = GetProgramFromFile();
+            int HighestSignalLooped = FindHighestSignalLooped();
+            Console.WriteLine("Result part 2: {0}", HighestSignalLooped);
+        }
 
-            var result = GetPermutations(Enumerable.Range(0, 5), 5);
-
+        private static int FindHighestSignal()
+        {
+            IntcodeProgram intcodeProgram = GetProgramFromFile();
+            var phaseSettings = GetPermutations(Enumerable.Range(0, 5), 5);
             int max = 0;
-
-            foreach (var phaseSettingSequence in result)
+            foreach (var phaseSettingSequence in phaseSettings)
             {
                 int output = 0;
                 foreach (int i in phaseSettingSequence)
@@ -30,7 +33,28 @@ namespace AdventOfCode
                     max = output;
                 }
             }
-            Console.WriteLine(max);
+            return max;
+        }
+
+        private static int FindHighestSignalLooped()
+        {
+            IntcodeProgram intcodeProgram = GetProgramFromFile();
+            var phaseSettings = GetPermutations(Enumerable.Range(5, 5), 5);
+            int max = 0;
+            foreach (var phaseSettingSequence in phaseSettings)
+            {
+                int output = 0;
+                foreach (int i in phaseSettingSequence)
+                {
+                    List<int> inputs = new List<int> { i, output };
+                    output = intcodeProgram.ExecuteIntcode(inputs).outputs.Last();
+                }
+                if (output > max)
+                {
+                    max = output;
+                }
+            }
+            return max;
         }
 
         private static IntcodeProgram GetProgramFromFile()
