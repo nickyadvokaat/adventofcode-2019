@@ -7,11 +7,11 @@ namespace AdventOfCode.Intcode
     internal enum Mode
     { Position = 0, Immediate = 1, Relative = 2 };
 
+    internal enum State
+    { Ready, Running, AwaitingInput, Finished };
+
     internal class Computer
     {
-        private enum State
-        { Ready, Running, AwaitingInput, Finished };
-
         private enum Opcode
         { Add = 1, Mult = 2, Input = 3, Output = 4, True = 5, False = 6, Less = 7, Equals = 8, RB = 9, End = 99 };
 
@@ -38,6 +38,26 @@ namespace AdventOfCode.Intcode
         public void ProvideInput(long input)
         {
             inputQueue.Enqueue(input);
+        }
+
+        public bool HasOutput()
+        {
+            return outputQueue.Count > 0;
+        }
+
+        public long PopOutput()
+        {
+            return outputQueue.Dequeue();
+        }
+
+        public State GetState()
+        {
+            return state;
+        }
+
+        public bool IsFinished()
+        {
+            return state == State.Finished;
         }
 
         public void ProcessInstructions()
@@ -81,7 +101,6 @@ namespace AdventOfCode.Intcode
                 case Opcode.Input:
                     if (inputQueue.Count > 0)
                     {
-                        //
                         index = C == Mode.Relative ? memory.Get(IP + 1) + memory.getRB() : memory.Get(IP + 1);
                         memory.Set(index, inputQueue.Dequeue());
                         IP += 2;

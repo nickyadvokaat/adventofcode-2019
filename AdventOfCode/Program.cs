@@ -1,4 +1,5 @@
 ﻿using AdventOfCode.Intcode;
+using AdventOfCode.Day13;
 
 namespace AdventOfCode
 {
@@ -6,7 +7,7 @@ namespace AdventOfCode
     {
         private static void Main(string[] args)
         {
-            Boot.Run();
+            Day13.Day13.Run();
         }
     }
 }

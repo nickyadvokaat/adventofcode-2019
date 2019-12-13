@@ -22,6 +22,9 @@
     <None Remove="data\data09.txt" />
     <None Remove="data\data10-test.txt" />
     <None Remove="data\data10.txt" />
+    <None Remove="data\data11.txt" />
+    <None Remove="data\data12.txt" />
+    <None Remove="data\data13.txt" />
     <None Remove="data\TextFile1.txt" />
   </ItemGroup>
 
@@ -78,6 +81,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="data\data10.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\data11.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\data12.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\data13.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
